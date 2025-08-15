@@ -63,3 +63,12 @@ source(here::here("src", "food_cart_function.R"))
 
 name_cart("pizza", "elephant")
 ```
+
+```{r}
+# source cork oak height growth
+source(here::here("src", "cork_oak_growth.R"))
+
+height_t2(2, 4, 10)
+```
+
+
