@@ -8,6 +8,7 @@ editor: visual
 ## Unit testing with `testthat`
 
 Install packages
+
 ```{r}
 #install.packages("testthat")
 #install.packages("devtools")
@@ -15,20 +16,17 @@ Install packages
 ```
 
 Load packages
+
 ```{r}
+rm(list = ls())
 library(testthat)
 library(devtools)
 library(remotes)
 ```
 
-Write function to unit test:
-#### Find mean val of each col and return lowest & highest mean val calculated
+Write function to unit test: \#### Find mean val of each col and return lowest & highest mean val calculated
 
-Expecting:
-- numeric output
-- length of 2, vector output
-- first val < second val
-
+Expecting: - numeric output - length of 2, vector output - first val \< second val
 
 ```{r}
 mean_range <- function(df){
@@ -57,3 +55,11 @@ expect_length(mean_range(mtcars), 2)
 expect_true(mean_range(mtcars)[1] < mean_range(mtcars)[2])
 ```
 
+Sourcing Files
+
+```{r}
+# source food cart
+source(here::here("src", "food_cart_function.R"))
+
+name_cart("pizza", "elephant")
+```
