@@ -1,0 +1,59 @@
+---
+title: "Unit-test-practice"
+author: "zachyloo"
+format: html
+editor: visual
+---
+
+## Unit testing with `testthat`
+
+Install packages
+```{r}
+#install.packages("testthat")
+#install.packages("devtools")
+#install.packages("remotes")
+```
+
+Load packages
+```{r}
+library(testthat)
+library(devtools)
+library(remotes)
+```
+
+Write function to unit test:
+#### Find mean val of each col and return lowest & highest mean val calculated
+
+Expecting:
+- numeric output
+- length of 2, vector output
+- first val < second val
+
+
+```{r}
+mean_range <- function(df){
+  # return mean vals of each col using apply
+  col_means <- apply(X = df, MARGIN = 2, FUN = mean, na.rm = TRUE)
+  # find max & min vals
+  col_mean_max <- max(col_means)
+  col_mean_min <- min(col_means)
+  
+  # return mix & max
+  return(c(col_mean_min, col_mean_max))
+}
+
+mean_range(mtcars)
+
+```
+
+Unit tests!
+
+```{r}
+#| include: false
+# test output is length 2
+expect_length(mean_range(mtcars), 2)
+
+# test that first val < second val
+expect_true(mean_range(mtcars)[1] < mean_range(mtcars)[2])
+```
+
