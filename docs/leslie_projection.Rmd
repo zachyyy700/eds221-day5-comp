@@ -22,7 +22,10 @@ Recall the Leslie matrix from EDS 212. Matrix multiplication (using the dot prod
 
 ```{r}
 # Make the Leslie Matrix:
-fish_leslie <- matrix(c(0, 0, 0, 600, 0.05, 0, 0, 0, 0, 0.20, 0, 0, 0, 0, 0.16, 0.9), nrow = 4, ncol = 4, byrow = TRUE)
+fish_leslie <- matrix(c(0, 0, 0, 600,
+                        0.05, 0, 0, 0,
+                        0, 0.20, 0, 0,
+                        0, 0, 0.16, 0.9), nrow = 4, ncol = 4, byrow = TRUE)
 
 # Check it out: 
 fish_leslie
@@ -43,24 +46,28 @@ Add line-by-line comments wheres prompted in the code below, explaining what eac
 # ------ WHAT HAPPENS HERE? ------ #
 # ------ comment line-by-line ---- #
 
-# The line below...
+# The line below creates the time vector by year, representing the lifecycles
 time_yr <- seq(from = 0, to = 8, by = 1)
 
-# The line below...
+# The line below creates empty matrix with ncols 4 and nrows 8
 proj_year <- matrix(ncol = length(fish_year0), nrow = length(time_yr))
 
-# The line below...
+# The line below fills in empty, first row with initial population
 proj_year[1, ] <- fish_year0
 
-# The for loop below...
-for (i in 2:length(time_yr)) {
-  proj_year[i,] <- fish_leslie %*% proj_year[i-1,]
+# The for loop below calculates dot product of 'survival' (leslie) and proj_year, calculating populations of each lifestage and filling in empty row
+
+for (i in 2:length(time_yr)) { # starting at i = 2 since proj_year[1,] is given already
+  proj_year[i,] <- fish_leslie %*% proj_year[i-1,] # must compensate i
 }
 
 
 # The rest is wrangling & visualization (run to check it out):
+
+# update colnames
 colnames(proj_year) <- c("eggs", "fry", "juvenile", "adult")
 
+# convert to df, pivot longer for 'easy rows'
 proj_df <- data.frame(time_yr, proj_year) %>% 
   pivot_longer(cols = -time_yr, names_to = "lifestage", values_to = "stage_population")
 
